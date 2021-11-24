@@ -44,4 +44,4 @@ dependencies:
     - tqdm==4.62.3
     - typing-extensions==4.0.0
     - yapf==0.31.0
-prefix: /home/blazs/miniconda3/envs/core
+prefix: /rnd
