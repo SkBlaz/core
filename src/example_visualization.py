@@ -52,7 +52,7 @@ if __name__ == "__main__":
                          store_intermediary=True)
     core_instance.fit(frep)
     intermediary = core_instance.intermediary_representations
-    
+
     for enx, transformed in enumerate(intermediary):
         ax = fig.add_subplot(1, len(intermediary), enx + 1)
         compressed_rep = umap.UMAP().fit_transform(transformed)

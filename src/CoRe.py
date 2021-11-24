@@ -19,6 +19,7 @@ class CoRe:
     """
     The main CoRe class.
     """
+
     def __init__(self,
                  tau=2,
                  verbose=True,
@@ -162,8 +163,8 @@ if __name__ == "__main__":
 
     X = np.random.random((100, 100))
     core_instance = CoRe(verbose=False,
-                       embedding_algorithm="CoRe-small",
-                       store_intermediary=False)
+                         embedding_algorithm="CoRe-small",
+                         store_intermediary=False)
     core_instance.fit(X)
     intermediary = core_instance.transform(X, keep_intermediary=True)
     print(len(intermediary))
