@@ -23,7 +23,7 @@ class ReductionCluster:
             elif self.aggregation == "mean":
                 rspace[:, enx] = np.mean(subspace, axis=1).reshape(-1)
             elif self.aggregation == "median":
-                rspace[:, enx] = np.mean(subspace, axis=1).reshape(-1)
+                rspace[:, enx] = np.median(subspace, axis=1).reshape(-1)
         return rspace
 
     def fit_transform(self, X):
