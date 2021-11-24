@@ -1,10 +1,10 @@
-from neural import *
-from clustering_reduction import *
-from subspacereduction import *
+from neural import GenericAutoencoder
+from clustering_reduction import ReductionCluster
+from subspacereduction import ReductionSubspace
 try:
     import umap
-except:
-    print("UMAP unavailable.")
+except Exception as es:
+    print(f"UMAP unavailable. {es}")
 from sklearn.decomposition import TruncatedSVD
 from sklearn.manifold import LocallyLinearEmbedding
 import logging
