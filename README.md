@@ -3,7 +3,9 @@ This repository contains minimal working examples to get you started with explor
 Read more at https://arxiv.org/abs/2110.07595.
 
 # Installation
+```
 pip install -r requirements.txt (or the conda env)
+```
 
 # Worked example
 
