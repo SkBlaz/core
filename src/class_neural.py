@@ -9,8 +9,7 @@ import numpy as np
 torch.manual_seed(123321)
 np.random.seed(123321)
 
-logging.basicConfig(format='%(asctime)s - %(message)s',
-                    datefmt='%d-%b-%y %H:%M:%S')
+logging.basicConfig(format="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S")
 logging.getLogger(__name__).setLevel(logging.INFO)
 
 
@@ -45,12 +44,9 @@ class E2EDatasetLoader(Dataset):
 
 
 class AUTOENCODER(nn.Module):
-    def __init__(self,
-                 input_size,
-                 hidden_size,
-                 nn_type="mini",
-                 dropout=0.1,
-                 device="cuda"):
+    def __init__(
+        self, input_size, hidden_size, nn_type="mini", dropout=0.1, device="cuda"
+    ):
         super(AUTOENCODER, self).__init__()
 
         self.nn_type = nn_type
@@ -120,17 +116,18 @@ class AUTOENCODER(nn.Module):
 
 
 class GenericAutoencoder:
-    def __init__(self,
-                 batch_size=32,
-                 num_epochs=99999,
-                 learning_rate=0.001,
-                 stopping_crit=30,
-                 n_components=64,
-                 nn_type="mini",
-                 dropout=0.2,
-                 verbose=False):
-        self.device = torch.device(
-            'cuda' if torch.cuda.is_available() else 'cpu')
+    def __init__(
+        self,
+        batch_size=32,
+        num_epochs=99999,
+        learning_rate=0.001,
+        stopping_crit=30,
+        n_components=64,
+        nn_type="mini",
+        dropout=0.2,
+        verbose=False,
+    ):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.loss = torch.nn.SmoothL1Loss()
         self.dropout = dropout
         self.nn_type = nn_type
@@ -147,24 +144,25 @@ class GenericAutoencoder:
     def fit(self, features):
 
         train_dataset = E2EDatasetLoader(features)
-        dataloader = DataLoader(train_dataset,
-                                batch_size=self.batch_size,
-                                shuffle=True,
-                                num_workers=1)
+        dataloader = DataLoader(
+            train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=1
+        )
         stopping_iteration = 0
         current_loss = np.inf
-        self.model = AUTOENCODER(features.shape[1],
-                                 hidden_size=self.hidden_layer_size,
-                                 nn_type=self.nn_type,
-                                 dropout=self.dropout,
-                                 device=self.device).to(self.device)
-        self.optimizer = torch.optim.Adam(self.model.parameters(),
-                                          lr=self.learning_rate)
+        self.model = AUTOENCODER(
+            features.shape[1],
+            hidden_size=self.hidden_layer_size,
+            nn_type=self.nn_type,
+            dropout=self.dropout,
+            device=self.device,
+        ).to(self.device)
+        self.optimizer = torch.optim.Adam(
+            self.model.parameters(), lr=self.learning_rate
+        )
         self.num_params = sum(p.numel() for p in self.model.parameters())
         if self.verbose:
             logging.info("Number of parameters {}".format(self.num_params))
-            logging.info("Starting training for {} epochs".format(
-                self.num_epochs))
+            logging.info("Starting training for {} epochs".format(self.num_epochs))
         if self.verbose:
             pbar = tqdm.tqdm(total=self.stopping_crit)
         self.model.train()
@@ -191,8 +189,9 @@ class GenericAutoencoder:
                     pbar.update(1)
                 stopping_iteration += 1
             if self.verbose:
-                logging.info("epoch {}, mean loss per batch {}".format(
-                    epoch, mean_loss))
+                logging.info(
+                    "epoch {}, mean loss per batch {}".format(epoch, mean_loss)
+                )
 
     def transform(self, features):
         test_dataset = E2EDatasetLoader(features, None)
@@ -215,10 +214,9 @@ if __name__ == "__main__":
 
     X = np.random.random((100, 1000))
     X = sparse.csr_matrix(X)
-    ae = GenericAutoencoder(n_components=16,
-                            batch_size=32,
-                            verbose=False,
-                            nn_type="large")
+    ae = GenericAutoencoder(
+        n_components=16, batch_size=32, verbose=False, nn_type="large"
+    )
     ae.fit(X)
     representation = ae.transform(X)
     print(representation.shape)

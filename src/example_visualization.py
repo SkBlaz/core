@@ -27,12 +27,9 @@ if __name__ == "__main__":
         TaggedDocument(simple_preprocess(doc), [i])
         for i, doc in enumerate(total_sequences_training)
     ]
-    model = Doc2Vec(documents,
-                    vector_size=768,
-                    window=5,
-                    min_count=2,
-                    epochs=32,
-                    num_cpu=8)
+    model = Doc2Vec(
+        documents, vector_size=768, window=5, min_count=2, epochs=32, num_cpu=8
+    )
     vecs_train = []
 
     for doc in total_sequences_training:
@@ -47,9 +44,9 @@ if __name__ == "__main__":
     sns.set_style("white")
     fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
-    core_instance = CoRe(verbose=False,
-                         embedding_algorithm=possible_embedding,
-                         store_intermediary=True)
+    core_instance = CoRe(
+        verbose=False, embedding_algorithm=possible_embedding, store_intermediary=True
+    )
     core_instance.fit(frep)
     intermediary = core_instance.intermediary_representations
 
@@ -57,11 +54,13 @@ if __name__ == "__main__":
         ax = fig.add_subplot(1, len(intermediary), enx + 1)
         compressed_rep = umap.UMAP().fit_transform(transformed)
 
-        sns.scatterplot(compressed_rep[:, 0],
-                        compressed_rep[:, 1],
-                        hue=labels,
-                        palette="Accent",
-                        s=12)
+        sns.scatterplot(
+            compressed_rep[:, 0],
+            compressed_rep[:, 1],
+            hue=labels,
+            palette="Accent",
+            s=12,
+        )
 
         plt.legend([], [], frameon=False)
         ax.set_yticklabels([])

@@ -2,6 +2,7 @@ import numpy as np
 from class_neural import GenericAutoencoder
 from class_clustering_reduction import ReductionCluster
 from class_subspace_reduction import ReductionSubspace
+
 try:
     import umap
 except Exception as es:
@@ -10,8 +11,7 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.manifold import LocallyLinearEmbedding
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(message)s',
-                    datefmt='%d-%b-%y %H:%M:%S')
+logging.basicConfig(format="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S")
 logging.getLogger(__name__).setLevel(logging.INFO)
 
 
@@ -20,11 +20,13 @@ class CoRe:
     The main CoRe class.
     """
 
-    def __init__(self,
-                 tau=2,
-                 verbose=True,
-                 embedding_algorithm="CoRe-small",
-                 store_intermediary=False):
+    def __init__(
+        self,
+        tau=2,
+        verbose=True,
+        embedding_algorithm="CoRe-small",
+        store_intermediary=False,
+    ):
         self.verbose = verbose
         self.store_intermediary = store_intermediary
         self.intermediary_representations = []
@@ -48,12 +50,10 @@ class CoRe:
                 break
         dim_series.append(self.k)
         self.dim_series = dim_series
-        logging.info("Initialized dimension series: {}".format(
-            self.dim_series))
+        logging.info("Initialized dimension series: {}".format(self.dim_series))
 
     def measure_complexity(self, matrix):
-        norms = np.sqrt(np.einsum('ij,ij->i', matrix,
-                                  matrix)) / matrix.shape[1]
+        norms = np.sqrt(np.einsum("ij,ij->i", matrix, matrix)) / matrix.shape[1]
         mnorm = (norms - np.mean(norms)) / (np.max(norms) - np.min(norms))
         mnorm = np.std(mnorm)
         return mnorm
@@ -69,14 +69,14 @@ class CoRe:
                 logging.info(f"Re-embedding into {dim} dimensions.")
 
             if "CoRe-large" in self.embedding_algorithm:
-                encoder = GenericAutoencoder(n_components=dim,
-                                             verbose=self.verbose,
-                                             nn_type="large")
+                encoder = GenericAutoencoder(
+                    n_components=dim, verbose=self.verbose, nn_type="large"
+                )
 
             if "CoRe-small" in self.embedding_algorithm:
-                encoder = GenericAutoencoder(n_components=dim,
-                                             verbose=self.verbose,
-                                             nn_type="mini")
+                encoder = GenericAutoencoder(
+                    n_components=dim, verbose=self.verbose, nn_type="mini"
+                )
 
             elif "UMAP" in self.embedding_algorithm:
                 encoder = umap.UMAP(n_components=dim)
@@ -108,15 +108,16 @@ class CoRe:
             # encode the initial representation
             if self.direct_projection:
                 encoded_representation = encoder.fit_transform(
-                    intermediary_representations[0])
+                    intermediary_representations[0]
+                )
 
             # encode current representation
             else:
                 encoded_representation = encoder.fit_transform(
-                    intermediary_representations[-1])
+                    intermediary_representations[-1]
+                )
 
-            self.rep_scores.append(
-                self.measure_complexity(encoded_representation))
+            self.rep_scores.append(self.measure_complexity(encoded_representation))
 
             encoders.append(encoder)
             intermediary_representations.append(encoded_representation)
@@ -162,9 +163,9 @@ if __name__ == "__main__":
     import numpy as np
 
     X = np.random.random((100, 100))
-    core_instance = CoRe(verbose=False,
-                         embedding_algorithm="CoRe-small",
-                         store_intermediary=False)
+    core_instance = CoRe(
+        verbose=False, embedding_algorithm="CoRe-small", store_intermediary=False
+    )
     core_instance.fit(X)
     intermediary = core_instance.transform(X, keep_intermediary=True)
     print(len(intermediary))
