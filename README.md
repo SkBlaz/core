@@ -8,7 +8,7 @@ pip install -r requirements.txt (or the conda env)
 # Worked example
 
 ```python
-python src/visualize_clustering.py
+python src/example_visualization.py
 ```
 This script includes core CoRe's functionality, feel free to inspect it for more details.
 

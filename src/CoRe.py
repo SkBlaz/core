@@ -1,6 +1,7 @@
-from neural import GenericAutoencoder
-from clustering_reduction import ReductionCluster
-from subspacereduction import ReductionSubspace
+import numpy as np
+from class_neural import GenericAutoencoder
+from class_clustering_reduction import ReductionCluster
+from class_subspace_reduction import ReductionSubspace
 try:
     import umap
 except Exception as es:
@@ -100,7 +101,7 @@ class CoRe:
             elif "LLE" in self.embedding_algorithm:
                 encoder = LocallyLinearEmbedding(n_components=dim)
 
-            elif "PCA" in self.embedding_algorithm:
+            elif "SVD" in self.embedding_algorithm:
                 encoder = TruncatedSVD(n_components=dim)
 
             ## encode the initial representation
@@ -160,9 +161,9 @@ if __name__ == "__main__":
     import numpy as np
 
     X = np.random.random((100, 100))
-    ra_instance = CoRe(verbose=False,
+    core_instance = CoRe(verbose=False,
                        embedding_algorithm="CoRe-small",
                        store_intermediary=False)
-    ra_instance.fit(X)
-    intermediary = ra_instance.transform(X, keep_intermediary=True)
+    core_instance.fit(X)
+    intermediary = core_instance.transform(X, keep_intermediary=True)
     print(len(intermediary))
