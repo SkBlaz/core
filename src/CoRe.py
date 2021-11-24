@@ -104,12 +104,12 @@ class CoRe:
             elif "SVD" in self.embedding_algorithm:
                 encoder = TruncatedSVD(n_components=dim)
 
-            ## encode the initial representation
+            # encode the initial representation
             if self.direct_projection:
                 encoded_representation = encoder.fit_transform(
                     intermediary_representations[0])
 
-            ## encode current representation
+            # encode current representation
             else:
                 encoded_representation = encoder.fit_transform(
                     intermediary_representations[-1])

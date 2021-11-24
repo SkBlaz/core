@@ -1,4 +1,4 @@
-## The clustering reduction class
+# The clustering reduction class
 from sklearn.cluster import KMeans
 import numpy as np
 from sklearn.preprocessing import normalize, StandardScaler

@@ -15,7 +15,7 @@ logging.getLogger(__name__).setLevel(logging.INFO)
 
 
 class E2EDatasetLoader(Dataset):
-    def __init__(self, features, targets=None):  # , transform=None
+    def __init__(self, features, targets=None):
 
         if "sparse" in str(type(features)):
             self.features = features.tocsr()

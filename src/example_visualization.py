@@ -1,4 +1,4 @@
-## Simple cluster visualization
+# Simple cluster visualization
 import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 from sklearn.cluster import KMeans
