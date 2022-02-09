@@ -17,12 +17,5 @@ This script includes core CoRe's functionality, feel free to inspect it for more
 
 
 ```
-@misc{škrlj2021compressibility,
-      title={Compressibility of Distributed Document Representations}, 
-      author={Blaž Škrlj and Matej Petkovič},
-      year={2021},
-      eprint={2110.07595},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
+@INPROCEEDINGS{9679085,  author={Škrlj, Blaž and Petković, Matej},  booktitle={2021 IEEE International Conference on Data Mining (ICDM)},   title={Compressibility of Distributed Document Representations},   year={2021},  volume={},  number={},  pages={1330-1335},  doi={10.1109/ICDM51629.2021.00166}}
 ```
